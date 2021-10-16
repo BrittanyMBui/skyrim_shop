@@ -22,5 +22,30 @@ module.exports = {
                 throw new Error(err)
             }
         }
+    },
+    Mutation: {
+        async addItem(_, { itemName, itemPrice, itemDescription, itemImg, itemType })
+         {
+            const newItem = new Item({
+                itemName,
+                itemPrice,
+                itemDescription,
+                itemImg,
+                itemType            
+            });
+
+            const item = await newItem.save();
+            
+            return item;
+        },
+        async deleteItem(_, {itemId }) {
+            try {
+                const item = await Item.findById(itemId);
+                item.delete();
+                return 'Item deleted';
+            } catch (err) {
+                throw new Error(err)
+            }
+        }
     }
 }

@@ -6,6 +6,8 @@ type Item {
     itemName: String!
     itemPrice: String!
     itemDescription: String!
+    itemImg: String!
+    itemType: String!
 }
 type User {
     id: ID!
