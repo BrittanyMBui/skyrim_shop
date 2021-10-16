@@ -21,6 +21,10 @@ input RegisterInput {
     password: String!
     confirmPassword: String!
 }
+type Query {
+    getItems: [Item]
+    getItem(itemId: ID!): Item
+}
 type Mutation {
     register(registerInput: RegisterInput): User!
     login(email: String!, password: String!): User!
