@@ -9,7 +9,8 @@ type Item {
 }
 type User {
     id: ID!
-    name: String!
+    firstName: String!
+    lastName: String!
     email: String!
     token: String!
 }

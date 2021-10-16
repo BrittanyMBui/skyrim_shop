@@ -1,12 +1,16 @@
 module.exports.validateRegisterInput = (
-    name,
+    firstName,
+    lastName,
     email,
     password,
     confirmPassword
 ) => {
     const errors = {};
-    if (name.trim() === '') {
-        errors.name = 'Name required';
+    if (firstName.trim() === '') {
+        errors.name = 'First name required';
+    }
+    if (lastName.trim() === '') {
+        errors.name = 'Last name required';
     }
     if (email.trim() === '') {
         errors.email = 'Email required';
@@ -28,10 +32,10 @@ module.exports.validateRegisterInput = (
     }
 };
 
-module.exports.validateLoginInput = (name, password) => {
+module.exports.validateLoginInput = (email, password) => {
     const errors = {};
-    if (name.trim() === '') {
-        errors.name = 'Please enter your name';
+    if (email.trim() === '') {
+        errors.name = 'Please enter your email';
     }
     if (password.trim() === '') {
         errors.password = 'Please enter your password';

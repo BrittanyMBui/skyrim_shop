@@ -16,8 +16,11 @@ module.exports = {
     Mutation: {
         // LOGIN
         async login(_, { email, password }) {
-            // UPDATE AFTER VALIDATORS ARE CREATED IN UTILS
-            // - validateLoginInput
+            const { valid, errors } = validateLoginInput(email, password)
+
+            if (!valid) {
+                throw new UserInputError('Errors', { errors })
+            }
 
             const user = await User.findOne({ email });
 
@@ -44,11 +47,16 @@ module.exports = {
         async register(
             _,
             {
-                registerInput: { name, email, password, confirmPassword }
+                registerInput: { firstName, lastName, email, password, confirmPassword }
             },
             ) {
-
+                const { valid, errors } = validateRegisterInput(
+                    firstName,
+                    lastName,
+                    email,
+                    password,
+                    confirmPassword
+                )
             }
-        )
     }
 }
