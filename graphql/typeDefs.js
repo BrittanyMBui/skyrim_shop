@@ -14,4 +14,15 @@ type User {
     email: String!
     token: String!
 }
+input RegisterInput {
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    confirmPassword: String!
+}
+type Mutation {
+    register(registerInput: RegisterInput): User!
+    login(email: String!, password: String!): User!
+}
 `
