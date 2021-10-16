@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { UserInputError } = require('apollo-server');
+const { validateRegisterInput, validateLoginInput } = require('../../util/validators');
 const User = require('../../models/User');
 
 function generateToken(user) {
@@ -15,7 +16,39 @@ module.exports = {
     Mutation: {
         // LOGIN
         async login(_, { email, password }) {
-            const {errors, valid}
-        }
+            // UPDATE AFTER VALIDATORS ARE CREATED IN UTILS
+            // - validateLoginInput
+
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                errors.general = 'User not found';
+                throw new UserInputError('User not found', { errors });
+            };
+
+            const match = await bcrypt.compare(password, user.password);
+            if (!match) {
+                errors.general = 'Invalid credentials';
+                throw new UserInputError('Invalid credentials', { errors });
+            };
+
+            const token = generateToken(user);
+
+            return {
+                ...user._doc,
+                id: user._id,
+                token
+            };
+        },
+        // REGISTER
+        async register(
+            _,
+            {
+                registerInput: { name, email, password, confirmPassword }
+            },
+            ) {
+
+            }
+        )
     }
 }
