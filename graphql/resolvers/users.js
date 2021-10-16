@@ -56,7 +56,40 @@ module.exports = {
                     email,
                     password,
                     confirmPassword
-                )
+                );
+
+                if (!valid) {
+                    throw new UserInputError('Errors', { errors })
+                }
+
+                const user = await User.findOne({ email });
+
+                if (user) {
+                    throw new UserInputError('Email in use', {
+                        errors: {
+                            email: 'Email in use'
+                        }
+                    })
+                }
+
+                password = await bcrypt.hash(password, 12);
+
+                const newUser = new User({
+                    firstName,
+                    lastName,
+                    email,
+                    password
+                });
+
+                const res = await newUser.save();
+
+                const token = generateToken(res)
+
+                return {
+                    ...rest._doc,
+                    id: res._id,
+                    token
+                }
             }
     }
 }
