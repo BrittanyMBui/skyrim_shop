@@ -9,6 +9,7 @@ const connectionString = process.env.MONGODB_URI;
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    playground: true,
     context: ({ req }) => ({ req })
 });
 

@@ -24,7 +24,7 @@ module.exports = {
         }
     },
     Mutation: {
-        async addItem(_, { itemName, itemPrice, itemDescription, itemImg, itemType })
+        async addItem(_, { itemInput: { itemName, itemPrice, itemDescription, itemImg, itemType } })
          {
             const newItem = new Item({
                 itemName,
@@ -34,11 +34,14 @@ module.exports = {
                 itemType            
             });
 
-            const item = await newItem.save();
+            const res = await newItem.save();
             
-            return item;
+            return {
+                ...res._doc,
+                id: res._id
+            };
         },
-        async deleteItem(_, {itemId }) {
+        async deleteItem(_, { itemId }) {
             try {
                 const item = await Item.findById(itemId);
                 item.delete();
